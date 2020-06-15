@@ -28,28 +28,27 @@
 
     - name: 'If Fact Matches - Encrypted Blitz'
       set_fact:
-        path: 'remotes = gdrive: tdrive: gcrypt: tcrypt: {{hdpath.stdout}}/move'
+        path: 'remotes = gdrive: tdrive: gcrypt: tcrypt: {{hdpath.stdout}}/downloads'
       when: transport == "be"
 
     - name: 'If Fact Matches - Encrypted Move'
       set_fact:
-        path: 'remotes = gdrive: gcrypt: {{hdpath.stdout}}/move'
+        path: 'remotes = gdrive: gcrypt: {{hdpath.stdout}}/downloads'
       when: transport == "me"
 
     - name: 'If Fact Matches - UnEncrypted Blitz'
       set_fact:
-        path: 'remotes = gdrive: tdrive: {{hdpath.stdout}}/move'
+        path: 'remotes = gdrive: tdrive: {{hdpath.stdout}}/downloads'
       when: transport == "bu"
 
     - name: 'If Fact Matches - UnEncrypted Move'
       set_fact:
-        path: 'remotes = gdrive: {{hdpath.stdout}}/move'
+        path: 'remotes = gdrive: {{hdpath.stdout}}/downloads'
       when: transport == "mu"
 
     - name: Creating required paths
       file: 'path={{hdpath.stdout}}/{{item}} state=directory mode=0755 owner=1000 group=1000 recurse=true'
       with_items:
-        - 'move'
         - 'downloads'
         - 'incomplete'
 
@@ -59,14 +58,12 @@
     - name: 'Setting ownership'
       shell: 'chown -R 1000:1000 {{hdpath.stdout}}/{{item}}'
       with_items:
-        - 'move'
         - 'downloads'
         - 'incomplete'
 
     - name: 'Setting permissions'
       shell: 'chmod -R 755 {{hdpath.stdout}}/{{item}}'
       with_items:
-        - 'move'
         - 'downloads'
         - 'incomplete'
 
@@ -103,3 +100,5 @@
 
     - name: 'Waiting for Union to initialize'
       wait_for: timeout=2
+
+      
