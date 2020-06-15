@@ -62,6 +62,11 @@
           DISABLE_TDRIVE2: 'true'
           DISABLE_GDRIVE: 'true'
           DISABLE_MERGERFS: 'true'
+          UPLOADS: '10'
+          PLEX: 'true'
+          PLEX_SERVER_IP: "plex"
+          GCE: 'false'
+          BWLIMITSET: '100'
 
      ########## DEPLOYMENT ##########
 
