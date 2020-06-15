@@ -34,6 +34,9 @@
   ignore_errors: yes
   when: tdgdsa.stat.exists == false
 
+- name: 'Remove move folder'
+  shell: 'rm -rf /mnt/move'
+
 - name: 'Check of Existance files in {{ pgrole }}'
   stat:
     path: '/opt/appdata/uploader/Preferences.xml'
