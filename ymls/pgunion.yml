@@ -100,5 +100,3 @@
 
     - name: 'Waiting for Union to initialize'
       wait_for: timeout=2
-
-      

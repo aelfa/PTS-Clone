@@ -15,16 +15,14 @@
         pgrole: 'uploader'
         intport: '8080'
         extport: '7777'
+        image: 'mrdoob/rccup:latest'
     # CORE (MANDATORY) ############################################################
     - name: 'Including main job'
       include_tasks: './core.yml'
-
     - name: 'Including cleaner job'
       include_tasks: './cleaner.yml'
-
     - name: 'Including key and rclone job'
       include_tasks: './key.yml'
-
     # LABELS ######################################################################
     - name: 'Adding Traefik'
       set_fact:
@@ -62,13 +60,24 @@
           DISABLE_TDRIVE2: 'true'
           DISABLE_GDRIVE: 'true'
           DISABLE_MERGERFS: 'true'
+          UPLOADS: '4'
+          BWLIMITSET: '80'
+          CHUNK: '32'
+          PLEX: 'false'
+          GCE: 'false'
+          DISCORD_WEBHOOK_URL: 'null'
+          DISCORD_ICON_OVERRIDE: 'https://i.imgur.com/MZYwA1I.png'
+          DISCORD_NAME_OVERRIDE: 'RCLONE'
+          LOGHOLDUI: '5m'
+          PLEX_SERVER_IP: 'plex'
+          PLEX_SERVER_PORT: '32400'
 
      ########## DEPLOYMENT ##########
 
     - name: 'Deploying {{pgrole}}'
       docker_container:
         name: '{{pgrole}}'
-        image: 'mrdoob/rccup'
+        image: '{{image}}'
         pull: yes
         published_ports:
           - '{{ports.stdout}}{{extport}}:{{intport}}'
