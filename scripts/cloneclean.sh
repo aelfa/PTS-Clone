@@ -90,12 +90,6 @@ startscript() {
     echo "Executing ${command}"
     eval "${command}"
     sleep 30
-    ##Sync files between parts
-    rsync "$(cat /var/plexguide/server.hd.path)/downloads/" "$(cat /var/plexguide/server.hd.path)/move/" \
-        -aq --remove-source-files --link-dest="$(cat /var/plexguide/server.hd.path)/downloads/" \
-        --exclude-from="/opt/pgclone/excluded/transport.exclude" \
-        --exclude-from="/opt/pgclone/excluded/excluded.folder"
-	sleep 30
  done
 }
 # keeps the function in a loop
