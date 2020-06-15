@@ -28,22 +28,22 @@
 
     - name: 'If Fact Matches - Encrypted Blitz'
       set_fact:
-        path: 'remotes = gdrive: tdrive: gcrypt: tcrypt: {{hdpath.stdout}}/move'
+        path: 'remotes = gdrive: tdrive: gcrypt: tcrypt: {{hdpath.stdout}}/downloads'
       when: transport == "be"
 
     - name: 'If Fact Matches - Encrypted Move'
       set_fact:
-        path: 'remotes = gdrive: gcrypt: {{hdpath.stdout}}/move'
+        path: 'remotes = gdrive: gcrypt: {{hdpath.stdout}}/downloads'
       when: transport == "me"
 
     - name: 'If Fact Matches - UnEncrypted Blitz'
       set_fact:
-        path: 'remotes = gdrive: tdrive: {{hdpath.stdout}}/move'
+        path: 'remotes = gdrive: tdrive: {{hdpath.stdout}}/downloads'
       when: transport == "bu"
 
     - name: 'If Fact Matches - UnEncrypted Move'
       set_fact:
-        path: 'remotes = gdrive: {{hdpath.stdout}}/move'
+        path: 'remotes = gdrive: {{hdpath.stdout}}/downloads'
       when: transport == "mu"
 
     - name: Creating required paths
