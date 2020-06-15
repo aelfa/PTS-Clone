@@ -62,12 +62,16 @@
           DISABLE_TDRIVE2: 'true'
           DISABLE_GDRIVE: 'true'
           DISABLE_MERGERFS: 'true'
-          UPLOADS: '10'
+          UPLOADS: '4'
           PLEX: 'true'
           PLEX_SERVER_IP: "plex"
           PLEX_SERVER_PORT: '32400'
+          ADDITIONAL_IGNORES: 'null'
           GCE: 'false'
           BWLIMITSET: '100'
+          LOGHOLDUI: '5m'
+          DISCORD_WEBHOOK_UR: 'null'
+          
 
      ########## DEPLOYMENT ##########
 
