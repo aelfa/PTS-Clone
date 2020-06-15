@@ -36,7 +36,7 @@
 
 - name: 'Check of Existance files in {{ pgrole }}'
   stat:
-    path: /opt/appdata/uploader/Preferences.xml'
+    path: '/opt/appdata/uploader/Preferences.xml'
   register: pcp
   ignore_errors: yes
 
