@@ -52,8 +52,6 @@
   with_items:
     - ndrive
     - ndrives
-    - npgblitz
-    - npgmove
     - npgunion
     - npgexclude
     - npgexcludes
