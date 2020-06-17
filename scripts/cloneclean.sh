@@ -20,6 +20,7 @@ find "$(cat /var/plexguide/server.hd.path)/downloads/torrent/" -mindepth 1 -type
 find "$(cat /var/plexguide/server.hd.path)/downloads/" -mindepth 2 -type d -empty -delete
 sleep 5
 bash /opt/pgclone/scripts/unwantedremover.sh
+done
 }
 # keeps the function in a loop
 cheeseballs=0
