@@ -146,7 +146,6 @@ EOF
   if [[ "$transport" == "mu" ]]; then
     gdrivemod
     multihdreadonly
-	agreebase
   elif [[ "$transport" == "me" ]]; then
     gdrivemod
     gcryptmod
@@ -157,7 +156,6 @@ EOF
     tdrivemod
     gdsamod
     multihdreadonly
-	agreebase
   elif [[ "$transport" == "be" ]]; then
     gdrivemod
     tdrivemod
@@ -166,7 +164,6 @@ EOF
     tcryptmod
     gdsacryptmod
     multihdreadonly
-    agreebasecrypt
   fi
 
   cat /var/plexguide/.drivelog
@@ -214,53 +211,8 @@ while [ "$date1" -ge `date +%s` ]; do
 done
 }
 
-agreebase() {    
-tee <<-EOF
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-               ⛔️ READ THIS NOTE 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-                ⚠ Warning
-Be aware that transferring more than 750GB/day 
-with less than 5 users will increase your risk 
-of data deletion by Google. 
 
-We do not condone or support users of Education accounts.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-EOF
-timer
-doneokay
-}
-agreebasecrypt() {
-
-    tee <<-EOF
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-               ⛔️ READ THIS NOTE 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-                ⚠ Warning
-
-Be aware that transferring more than 750GB/day 
-with less than 5 users will increase your risk 
-of data deletion by Google. Please do not use 
-encryption for media as this will place your 
-data at risk of deletion by Google as they do not 
-condone encrypting content placed on Google Drive. 
-This data is already encrypted behind your Google 
-credentials and encrypting further has no benefit.
-
-We do not condone or support users of 
-this service whom are using Education accounts.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-EOF
-timer
-doneokay
-}
 doneokay() {
  echo
   read -p 'Confirm Info | PRESS [ENTER] ' typed </dev/tty
@@ -548,9 +500,6 @@ buildrcloneenv() {
   vfs_cm="$(cat /var/plexguide/vfs_cm)"
   vfs_cms="$(cat /var/plexguide/vfs_cms)"
   vfs_dct="$(cat /var/plexguide/vfs_dct)"
-  vfs_t="$(cat /var/plexguide/vfs_t)"
-  vfs_mt="$(cat /var/plexguide/vfs_mt)"
-  vfs_c="$(cat /var/plexguide/vfs_c)"
 
   echo "uagent=$uagent" >/opt/appdata/plexguide/rclone.env
   echo "vfs_ll=$vfs_ll" >>/opt/appdata/plexguide/rclone.env
@@ -561,7 +510,4 @@ buildrcloneenv() {
   echo "vfs_cma=$vfs_cma" >>/opt/appdata/plexguide/rclone.env
   echo "vfs_cms=$vfs_cms" >>/opt/appdata/plexguide/rclone.env
   echo "vfs_dct=$vfs_dct" >>/opt/appdata/plexguide/rclone.env
-  echo "vfs_t=$vfs_t" >>/opt/appdata/plexguide/rclone.env
-  echo "vfs_mt=$vfs_mt" >>/opt/appdata/plexguide/rclone.env
-  echo "vfs_c=$vfs_c" >>/opt/appdata/plexguide/rclone.env
 }

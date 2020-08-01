@@ -62,11 +62,13 @@
           DISABLE_MERGERFS: 'true'
           BWLIMITSET: '80'
           CHUNK: '32'
-          GCE: 'false'
           DISCORD_WEBHOOK_URL: 'null'
           DISCORD_ICON_OVERRIDE: 'https://i.imgur.com/MZYwA1I.png'
           DISCORD_NAME_OVERRIDE: 'RCLONE'
+          SERVERSIDEMINAGE: 'false'
+          SERVERSIDE: 'false'
           LOGHOLDUI: '5m'
+          CLEANUPDOWN: '7'
 
      ########## DEPLOYMENT ##########
 

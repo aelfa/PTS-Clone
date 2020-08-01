@@ -20,29 +20,15 @@ pgclonevars() {
 		echo "$randomagent" >/var/plexguide/uagent
 		echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent; fi
 
-	touch /var/plexguide/cloneclean.nzb
-	touch /var/plexguide/cloneclean.torrent
-	cleanernzb="$(cat /var/plexguide/cloneclean.nzb)"
-	cleanertorrenet="$(cat /var/plexguide/cloneclean.torrent)"
-	if [[ "$cleanernzb" == "600" || "$cleanernzb" == "" || "$cleanernzb" == "NON-SET" ]]; then echo "600" >/var/plexguide/cloneclean.nzb; fi
-	if [[ "$cleanertorrenet" == "2400" || "$cleanertorrenet" == "" || "$cleanertorrenet" == "NON-SET" ]]; then echo "2400" >/var/plexguide/cloneclean.torrent; fi
-
     # rest standard
     mkdir -p /var/plexguide/rclone
     variable /var/plexguide/project.account "NOT-SET"
     variable /var/plexguide/rclone/deploy.version "null"
     variable /var/plexguide/pgclone.transport "NOT-SET"
-    variable /var/plexguide/move.bw "9M"
-    # variable /var/plexguide/blitz.bw "1000M"
     variable /var/plexguide/pgclone.salt ""
     variable /var/plexguide/multihd.paths ""
     variable /var/plexguide/server.hd.path "/mnt"
     hdpath="$(cat /var/plexguide/server.hd.path)"
-
-    gce="/var/plexguide/gce.check"
-    if [[ ! -e $gce ]]; then
-       variable /var/plexguide/blitz.bw "1000M"
-    else variable /var/plexguide/blitz.bw "4500M"; fi
 
     variable /var/plexguide/oauth.check ""
     oauthcheck=$(cat /var/plexguide/oauth.check)
@@ -129,11 +115,6 @@ pgclonevars() {
         dversionoutput="Local"
     else dversionoutput="None"; fi
 
-    # # For Clone Clean
-    # if [[ ! -e $gce ]]; then
-       # variable /var/plexguide/cloneclean "600"
-    # else variable /var/plexguide/cloneclean "120"; fi
-
     variable /var/plexguide/vfs_bs "16M"
     vfs_bs=$(cat /var/plexguide/vfs_bs)
 
@@ -162,35 +143,12 @@ pgclonevars() {
     vfs_ll=$(cat /var/plexguide/vfs_ll)
 
     if [[ ! -e $gce ]]; then
-       variable /var/plexguide/vfs_t "8"
-    else variable /var/plexguide/vfs_t "16"; fi
-    vfs_t=$(cat /var/plexguide/vfs_t)
-
-    if [[ ! -e $gce ]]; then
-       variable /var/plexguide/vfs_c "16"
-    else variable /var/plexguide/vfs_c "32"; fi
-    vfs_c=$(cat /var/plexguide/vfs_c)
-
-    if [[ ! -e $gce ]]; then    
-       variable /var/plexguide/vfs_mt "350G"
-    else variable /var/plexguide/vfs_mt "720G"; fi
-    vfs_mt=$(cat /var/plexguide/vfs_mt)
-
-    if [[ ! -e $gce ]]; then
        variable /var/plexguide/vfs_test "4G"
     else variable /var/plexguide/vfs_test "16G"; fi
     vfs_test=$(cat /var/plexguide/vfs_test)
-
-    # For BWLimit
-    if [[ ! -e $gce ]]; then
-       variable /var/plexguide/timetable.bw "14:00,40M"
-    else variable /var/plexguide/timetable.bw "off"; fi
-
     # Upgrade old var format to new var format
 
     echo $(sed -e 's/^"//' -e 's/"$//' <<<$(cat /var/plexguide/uagent)) >/var/plexguide/uagent
-    if [[ $(cat /var/plexguide/blitz.bw) != *"M"* && $(cat /var/plexguide/blitz.bw) != 0 ]]; then echo "$(cat /var/plexguide/blitz.bw)M" >/var/plexguide/blitz.bw; fi
-    if [[ $(cat /var/plexguide/move.bw) != *"M"* && $(cat /var/plexguide/move.bw) != 0 ]]; then echo "$(cat /var/plexguide/move.bw)M" >/var/plexguide/move.bw; fi
     if [[ $(cat /var/plexguide/vfs_bs) != *"M" ]]; then echo "$(cat /var/plexguide/vfs_bs)M" >/var/plexguide/vfs_bs; fi
     if [[ $(cat /var/plexguide/vfs_dcs) != *"M" ]]; then echo "$(cat /var/plexguide/vfs_dcs)M" >/var/plexguide/vfs_dcs; fi
     if [[ $(cat /var/plexguide/vfs_dct) != *"m" ]]; then echo "$(cat /var/plexguide/vfs_dct)m" >/var/plexguide/vfs_dct; fi
