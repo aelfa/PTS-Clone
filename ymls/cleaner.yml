@@ -29,17 +29,3 @@
 - name: 'CloneClean || Force kill stuck processes'
   shell: "kill -9 {{ item }}"
   with_items: "{{ killed_processes.results | select('failed') | map(attribute='item') | list }}"
-
-- name: 'Install CloceClean Service'
-  template:
-    src: /opt/pgclone/scripts/cloneclean.service.j2
-    dest: /etc/systemd/system/cloneclean.service
-    force: yes
-
-- name: 'Daemon-Reload for cloneclean'
-  systemd: state=stopped name=cloneclean daemon_reload=yes enabled=no
-  when: cxp.stat.exists
-
-- name: 'Start Service for CloneClean'
-  systemd: state=started name=cloneclean enabled=yes
-  when: cxp.stat.exists
