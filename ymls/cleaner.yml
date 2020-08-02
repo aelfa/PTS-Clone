@@ -47,7 +47,7 @@
 
 - name: 'Purge old PGMove Service | part 2'
   shell: 'rm -rf /etc/systemd/system/pgmove.service'
-  when: pgb.stat.exists
+  when: pgm.stat.exists
 
 - name: 'Remove PGBlitz Uploader'
   stat:
