@@ -1,2 +1,2 @@
-# PTS-Clone
+# Clone
 # Integrating Mrdoob/rccup 
