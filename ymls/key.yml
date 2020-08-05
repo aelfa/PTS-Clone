@@ -22,7 +22,12 @@
   when: rcp.stat.exists == true
 
 - name: 'Clone rclone.config to {{ pgrole }} folder' 
-  shell: 'cp -r /opt/appdata/plexguide/rclone.conf /opt/appdata/uploader/rclone.conf'
+  copy:
+    src: /opt/appdata/plexguide/rclone.conf
+    dest: /opt/appdata/uploader/rclone.conf
+    owner: 1000
+    group: 1000
+    mode: '0755'
 
 - name: 'Check of Existance file for TDrive and TCrypt'
   stat:
@@ -31,6 +36,7 @@
 
 - name: 'Clone fresh keys TDrive and TCrypt'
   shell: 'cp -rv "/opt/appdata/plexguide/.blitzkeys" /opt/appdata/uploader/keys'
+
   ignore_errors: yes
   when: tdgdsa.stat.exists == false
 
@@ -51,10 +57,10 @@
   when: pcp.stat.exists == true
 
 - name: 'Setting permissions on appdata'
-  shell: 'chmod 775 /opt/appdata/{{pgrole}}'
+  shell: 'chmod -R 775 /opt/appdata/{{pgrole}}'
 
 - name: 'Setting ownership on appdata recursivley (this can take a while!)'
-  shell: 'chown -R 1000:1000 /opt/appdata/{{pgrole}}'
+  shell: 'chown -cR 1000:1000 /opt/appdata/{{pgrole}}'
 
 - name: 'Setting permissions on appdata recursivley (this can take a while!)'
-  shell: 'chmod -R 775 /opt/appdata/{{pgrole}}'
+  shell: 'chmod -cR 775 /opt/appdata/{{pgrole}}'

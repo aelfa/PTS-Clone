@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# Title:      Docker Uploader 
-# Author(s):  PhyskX
-# CoAuthot:   MrDoob
-# GNU:        General Public License v3.0
+# Title:           Docker Uploader 
+# Author(s):       PhyskX
+# CoAuthor:        MrDoob
+# Dockerowner:     MrDoob
+# GNU:             General Public License v3.0
 ################################################################################
 ---
 - hosts: localhost
@@ -30,7 +31,7 @@
           traefik.enable: 'true'
           traefik.port: '{{intport}}'
           traefik.frontend.auth.forward.address: '{{gauth}}'
-          traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}}'
+          traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}}{{tldset}}{{cname}}'
           traefik.frontend.headers.SSLHost: '{{domain.stdout}}'
           traefik.frontend.headers.SSLRedirect: 'true'
           traefik.frontend.headers.STSIncludeSubdomains: 'true'
@@ -47,7 +48,7 @@
         pg_volumes:
           - '/opt/appdata/{{pgrole}}/:/config'
           - '/mnt/unionfs:/unionfs:shared'
-          - '/mnt/downloads:/move:shared'
+          - '{{hdpath.stdout}}/downloads:/move:shared'
 
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
@@ -62,11 +63,13 @@
           DISABLE_MERGERFS: 'true'
           BWLIMITSET: '80'
           CHUNK: '32'
-          GCE: 'false'
           DISCORD_WEBHOOK_URL: 'null'
           DISCORD_ICON_OVERRIDE: 'https://i.imgur.com/MZYwA1I.png'
           DISCORD_NAME_OVERRIDE: 'RCLONE'
+          SERVERSIDEMINAGE: 'false'
+          SERVERSIDE: 'false'
           LOGHOLDUI: '5m'
+          CLEANUPDOWN: '7'
 
      ########## DEPLOYMENT ##########
 
