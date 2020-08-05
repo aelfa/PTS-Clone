@@ -47,7 +47,7 @@
         pg_volumes:
           - '/opt/appdata/{{pgrole}}/:/config'
           - '/mnt/unionfs:/unionfs:shared'
-          - '/mnt/downloads:/move:shared'
+          - '{{hdpath.stdout}}/downloads:/move:shared'
 
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
