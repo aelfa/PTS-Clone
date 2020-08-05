@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# Title:      Docker Uploader 
-# Author(s):  PhyskX
-# CoAuthot:   MrDoob
-# GNU:        General Public License v3.0
+# Title:           Docker Uploader 
+# Author(s):       PhyskX
+# CoAuthor:        MrDoob
+# Dockerowner:     MrDoob
+# GNU:             General Public License v3.0
 ################################################################################
 ---
 - hosts: localhost
