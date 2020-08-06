@@ -6,29 +6,23 @@
 # GNU:        General Public License v3.0
 ################################################################################
 deploypgblitz() {
-  deployblitzstartcheck # At Bottom - Ensure Keys Are Made
-
+  deployblitzstartcheck 
+  # At Bottom - Ensure Keys Are Made
   # RCLONE BUILD
   echo "#------------------------------------------" >/opt/appdata/plexguide/rclone.conf
   echo "# rClone.config created over rclone " >>/opt/appdata/plexguide/rclone.conf
   echo "#------------------------------------------" >>/opt/appdata/plexguide/rclone.conf
-
   cat /opt/appdata/plexguide/.gdrive >>/opt/appdata/plexguide/rclone.conf
-
   if [[ $(cat "/opt/appdata/plexguide/.gcrypt") != "NOT-SET" ]]; then
     echo ""
     cat /opt/appdata/plexguide/.gcrypt >>/opt/appdata/plexguide/rclone.conf
   fi
-
   cat /opt/appdata/plexguide/.tdrive >>/opt/appdata/plexguide/rclone.conf
-
   if [[ $(cat "/opt/appdata/plexguide/.tcrypt") != "NOT-SET" ]]; then
     echo ""
     cat /opt/appdata/plexguide/.tcrypt >>/opt/appdata/plexguide/rclone.conf
   fi
-
   cat /opt/appdata/plexguide/.keys >>/opt/appdata/plexguide/rclone.conf
-
   deploydrives
 }
 
@@ -37,9 +31,7 @@ deploypgmove() {
   echo "#------------------------------------------" >/opt/appdata/plexguide/rclone.conf
   echo "# rClone.config created over rclone"  >>/opt/appdata/plexguide/rclone.conf
   echo "#------------------------------------------" >>/opt/appdata/plexguide/rclone.conf
-
   cat /opt/appdata/plexguide/.gdrive >/opt/appdata/plexguide/rclone.conf
-
   if [[ $(cat "/opt/appdata/plexguide/.gcrypt") != "NOT-SET" ]]; then
     echo ""
     cat /opt/appdata/plexguide/.gcrypt >>/opt/appdata/plexguide/rclone.conf
@@ -88,7 +80,6 @@ dduploader() {
 	ansible-playbook /opt/pgclone/ymls/uploader.yml
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
   tee <<-EOF
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	💪     DEPLOYED sucessfully !
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -109,12 +100,11 @@ ddredeploy() {
 	EOF
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
   cleanlogs
-ansible-playbook /opt/pgclone/ymls/uploader.yml
-sleep 10
+  ansible-playbook /opt/pgclone/ymls/uploader.yml
+  sleep 10
 domain=$(cat /var/plexguide/server.domain)
 ip=$(cat /var/plexguide/server.ip)
   tee <<-EOF
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	💪     DEPLOYED sucessfully !
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -128,21 +118,17 @@ EOF
     clonestart
 }
 ### Docker Uploader Deploy end ##
-
 deploydrives() {
   fail=0
   tee <<-EOF
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚀 Conducting RClone Mount Checks
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 EOF
 
   if [ -e "/var/plexguide/.drivelog" ]; then rm -rf /var/plexguide/.drivelog; fi
   touch /var/plexguide/.drivelog
   transport=$(cat /var/plexguide/pgclone.transport)
-
   if [[ "$transport" == "mu" ]]; then
     gdrivemod
     multihdreadonly
@@ -150,7 +136,6 @@ EOF
     gdrivemod
     gcryptmod
     multihdreadonly
-	agreebasecrypt
   elif [[ "$transport" == "bu" ]]; then
     gdrivemod
     tdrivemod
@@ -165,26 +150,21 @@ EOF
     gdsacryptmod
     multihdreadonly
   fi
-
   cat /var/plexguide/.drivelog
   logcheck=$(cat /var/plexguide/.drivelog | grep "Failed")
 
-  if [[ "$logcheck" == "" ]]; then
 
+  if [[ "$logcheck" == "" ]]; then
     if [[ "$transport" == "mu" || "$transport" == "me" ]]; then executemove; fi
     if [[ "$transport" == "bu" || "$transport" == "be" ]]; then executeblitz; fi
-
   else
-
     if [[ "$transport" == "me" || "$transport" == "be" ]]; then
       emessage="
   NOTE1: User forgot to share out GDSA E-Mail to Team Drive
   NOTE2: Conducted a blitz key restore and keys are no longer valid
   "
     fi
-
     tee <<-EOF
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚀 RClone Mount Checks - Failed
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -210,37 +190,29 @@ while [ "$date1" -ge `date +%s` ]; do
   echo -ne "$(date -u --date @$(($date1 - `date +%s` )) +%H:%M:%S)\r"; 
 done
 }
-
-
-
 doneokay() {
  echo
   read -p 'Confirm Info | PRESS [ENTER] ' typed </dev/tty
 }
 gdrivemod() {
   initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf gdrive: | grep -oP plexguide | head -n1)
-
   if [[ "$initial" != "plexguide" ]]; then
     rclone mkdir --config /opt/appdata/plexguide/rclone.conf gdrive:/plexguide
     initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf gdrive: | grep -oP plexguide | head -n1)
   fi
-
   if [[ "$initial" == "plexguide" ]]; then echo "GDRIVE :  Passed" >>/var/plexguide/.drivelog; else echo "GDRIVE :  Failed" >>/var/plexguide/.drivelog; fi
 }
 tdrivemod() {
   initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf tdrive: | grep -oP plexguide | head -n1)
-
   if [[ "tinitial" != "plexguide" ]]; then
     rclone mkdir --config /opt/appdata/plexguide/rclone.conf gdrive:/plexguide
     initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf tdrive: | grep -oP plexguide | head -n1)
   fi
-
   if [[ "$initial" == "plexguide" ]]; then echo "TDRIVE :  Passed" >>/var/plexguide/.drivelog; else echo "TDRIVE :  Failed" >>/var/plexguide/.drivelog; fi
 }
 gcryptmod() {
   c1initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf gdrive: | grep -oP encrypt | head -n1)
   c2initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf gcrypt: | grep -oP plexguide | head -n1)
-
   if [[ "$c1initial" != "encrypt" ]]; then
     rclone mkdir --config /opt/appdata/plexguide/rclone.conf gdrive:/encrypt
     c1initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf gdrive: | grep -oP encrypt | head -n1)
@@ -249,14 +221,12 @@ gcryptmod() {
     rclone mkdir --config /opt/appdata/plexguide/rclone.conf gcrypt:/plexguide
     c2initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf gcrypt: | grep -oP plexguide | head -n1)
   fi
-
   if [[ "$c1initial" == "encrypt" ]]; then echo "GCRYPT1:  Passed" >>/var/plexguide/.drivelog; else echo "GCRYPT1:  Failed" >>/var/plexguide/.drivelog; fi
   if [[ "$c2initial" == "plexguide" ]]; then echo "GCRYPT2:  Passed" >>/var/plexguide/.drivelog; else echo "GCRYPT2:  Failed" >>/var/plexguide/.drivelog; fi
 }
 tcryptmod() {
   c1initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf tdrive: | grep -oP encrypt | head -n1)
   c2initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf tcrypt: | grep -oP plexguide | head -n1)
-
   if [[ "$c1initial" != "encrypt" ]]; then
     rclone mkdir --config /opt/appdata/plexguide/rclone.conf tdrive:/encrypt
     c1initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf tdrive: | grep -oP encrypt | head -n1)
@@ -265,18 +235,17 @@ tcryptmod() {
     rclone mkdir --config /opt/appdata/plexguide/rclone.conf tcrypt:/plexguide
     c2initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf tcrypt: | grep -oP plexguide | head -n1)
   fi
-
   if [[ "$c1initial" == "encrypt" ]]; then echo "TCRYPT1:  Passed" >>/var/plexguide/.drivelog; else echo "TCRYPT1:  Failed" >>/var/plexguide/.drivelog; fi
   if [[ "$c2initial" == "plexguide" ]]; then echo "TCRYPT2:  Passed" >>/var/plexguide/.drivelog; else echo "TCRYPT2:  Failed" >>/var/plexguide/.drivelog; fi
 }
 
 gdsamod() {
   initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf GDSA01: | grep -oP plexguide | head -n1)
-
   if [[ "$initial" != "plexguide" ]]; then
     rclone mkdir --config /opt/appdata/plexguide/rclone.conf GDSA01:/plexguide
     initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf GDSA01: | grep -oP plexguide | head -n1)
   fi
+
 
   if [[ "$initial" == "plexguide" ]]; then echo "GDSA01 :  Passed" >>/var/plexguide/.drivelog; else echo "GDSA01 :  Failed" >>/var/plexguide/.drivelog; fi
 }
@@ -288,6 +257,7 @@ gdsacryptmod() {
     rclone mkdir --config /opt/appdata/plexguide/rclone.conf GDSA01C:/plexguide
     initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf GDSA01C: | grep -oP plexguide | head -n1)
   fi
+
 
   if [[ "$initial" == "plexguide" ]]; then echo "GDSA01C:  Passed" >>/var/plexguide/.drivelog; else echo "GDSA01C:  Failed" >>/var/plexguide/.drivelog; fi
 }
@@ -325,7 +295,6 @@ cleanlogs() {
   journalctl --vacuum-time=1s
   truncate -s 0 /var/plexguide/logs/*.log
 }
-
 prunedocker() {
   echo "Prune docker images and volumes..."
   docker system prune --volumes -f
@@ -336,7 +305,6 @@ createmountfolders() {
   chown -R 1000:1000 /mnt/{gdrive,tdrive,gcrypt,tcrypt} >/dev/null
   chmod -R 755 /mnt/{gdrive,tdrive,gcrypt,tcrypt} >/dev/null
 }
-
 cleanmounts() {
   echo "Unmount drives..."
   fusermount -uzq /mnt/gdrive >/dev/null
@@ -345,33 +313,24 @@ cleanmounts() {
   fusermount -uzq /mnt/tcrypt >/dev/null
   fusermount -uzq /mnt/unionfs >/dev/null
   pkill -f rclone* >/dev/null
-
   echo "checking for empty mounts..."
-
   mount="/mnt/unionfs/"
   cleanmount
-
   mount="/mnt/gdrive/"
   cleanmount
-
   mount="/mnt/tdrive/"
   cleanmount
-
   mount="/mnt/gcrypt/"
   cleanmount
-
   mount="/mnt/tcrypt/"
   cleanmount
-
 }
 
 cleanmount() {
   maxsize=1000000
-
   if [ -d "$mount" ]; then
     echo "Checking if $mount is not empty when unmounted..."
     if [[ "$(ls -a "$mount" | wc -l)" -ne 2 && "$(ls -a "$mount" | wc -l)" -ne 0 ]]; then
-
       if [[ "$(du -s "$mount" | cut -f1 | bc -l | rev | cut -c 2- | rev)" -lt $maxsize ]]; then
         echo "$mount is not empty when unmounted, fixing..."
         rsync -aq "$mount" /mnt/move/
@@ -415,21 +374,18 @@ restartapps() {
 
 deployFail() {
   # output final display
-
   if [[ "$transport" == "bu" ]]; then
     finaldeployoutput="Blitz"
   fi
   if [[ "$transport" == "be" ]]; then
     finaldeployoutput="Blitz: Encrypted"
   fi
-
   if [[ "$transport" == "mu" ]]; then
     finaldeployoutput="Move"
   fi
   if [[ "$transport" == "me" ]]; then
     finaldeployoutput="Move: Encrypted"
   fi
-
   erroroutput="$(journalctl -u gdrive -u gcrypt -u pgunion -u pgmove -b -q -p 6 --no-tail -e --no-pager --since "5 minutes ago" -n 20)"
   logoutput="$(tail -n 20 /var/plexguide/logs/*.log)"
   tee <<-EOF
