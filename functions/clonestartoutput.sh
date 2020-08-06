@@ -99,11 +99,7 @@ clonestart() {
     pgclonevars
     # pull throttle speeds based on role
     if [[ "$transport" == "mu" || "$transport" == "me" ]]; then
-        throttle=$(cat /var/plexguide/move.bw)
         output1="[C] Transport Select"
-    else
-        throttle=$(cat /var/plexguide/blitz.bw)
-        output1="[S] RClone Settings"
     fi
     if [[ "$transport" != "mu" && "$transport" != "me" && "$transport" != "bu" && "$transport" != "be" && "$transport" != "le" ]]; then
         rm -rf /var/plexguide/pgclone.transport 1>/dev/null 2>&1
@@ -111,16 +107,16 @@ clonestart() {
     fi
     if [[ "$transport" == "mu" ]]; then
         outputversion="Unencrypted Mounts"
-		output="Gdrive"
+        output="Gdrive"
     elif [[ "$transport" == "me" ]]; then
         outputversion="Encrypted Mounts"
-		output="Gcrypt"
+        output="Gcrypt"
     elif [[ "$transport" == "bu" ]]; then
         outputversion="Unencrypted Mounts"
-		output="TDrive"
+        output="TDrive"
     elif [[ "$transport" == "be" ]]; then
         outputversion="Encrypted Mounts"
-		output="Tcrypt"
+        output="Tcrypt"
     elif [[ "$transport" == "le" ]]; then
         outputversion="Local Hard Drives"
     fi
@@ -156,7 +152,7 @@ EOF
 
 EOF
         clonestartoutput
-		dockerstatus
+        dockerstatus
         tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 [A] Deploy Mounts            [ $outputversion ]
@@ -192,10 +188,10 @@ localstartoutput() {
 clonestartactions() {
     if [[ "$transport" == "mu" ]]; then
         case $typed in
-        1)  keyinputpublic ;;
-        2)  publicsecretchecker && echo "gdrive" >/var/plexguide/rclone/deploy.version && oauth ;;
-        z)  exit ;;
-        Z)  exit ;;
+        1) keyinputpublic ;;
+        2) publicsecretchecker && echo "gdrive" >/var/plexguide/rclone/deploy.version && oauth ;;
+        z) exit ;;
+        Z) exit ;;
         a) publicsecretchecker && mountchecker && deploypgmove ;;
         A) publicsecretchecker && mountchecker && deploypgmove ;;
         D) publicsecretchecker && deploydockeruploader ;;
