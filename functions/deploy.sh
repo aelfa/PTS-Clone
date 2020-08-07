@@ -38,6 +38,15 @@ deploypgmove() {
   fi
   deploydrives
 }
+removeoldui() {
+UI=$(docker ps --format '{{.Names}}' | grep "pgui")
+if [[ "$UI" == "pgui" ]]; then 
+   docker stop pgui
+   docker rm pgui
+   rm -rf /opt/appdata/pgui/
+fi
+}
+
 ### Docker Uploader Deploy start ##
 deploydockeruploader() {
 rcc=/opt/appdata/plexguide/rclone.conf
@@ -66,16 +75,17 @@ fi
 }
 deploydocker() {
 upper=$(docker ps --format '{{.Names}}' | grep "uploader")
-if [[ "$upper" != "uploader" ]]; then 
-dduploader
+if [[ "$upper" != "uploader" ]]; then
+   dduploader
 else ddredeploy; fi
 }
 dduploader() {
-	  tee <<-EOF
+	tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	🚀      Deploy of Docker Uploader
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	EOF
+        removeoldui
 	cleanlogs
 	ansible-playbook /opt/pgclone/ymls/uploader.yml
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
@@ -93,12 +103,13 @@ EOF
     clonestart
 }
 ddredeploy() {
-	  tee <<-EOF
+	tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	🚀      Redeploy of Docker Uploader
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	EOF
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
+  removeoldui
   cleanlogs
   ansible-playbook /opt/pgclone/ymls/uploader.yml
   sleep 10
@@ -152,8 +163,6 @@ EOF
   fi
   cat /var/plexguide/.drivelog
   logcheck=$(cat /var/plexguide/.drivelog | grep "Failed")
-
-
   if [[ "$logcheck" == "" ]]; then
     if [[ "$transport" == "mu" || "$transport" == "me" ]]; then executemove; fi
     if [[ "$transport" == "bu" || "$transport" == "be" ]]; then executeblitz; fi
@@ -184,12 +193,6 @@ EOF
 }
 
 ########################################################################################
-timer() {
-seconds=90; date1=$((`date +%s` + $seconds)); 
-while [ "$date1" -ge `date +%s` ]; do 
-  echo -ne "$(date -u --date @$(($date1 - `date +%s` )) +%H:%M:%S)\r"; 
-done
-}
 doneokay() {
  echo
   read -p 'Confirm Info | PRESS [ENTER] ' typed </dev/tty
@@ -239,6 +242,7 @@ tcryptmod() {
   if [[ "$c2initial" == "plexguide" ]]; then echo "TCRYPT2:  Passed" >>/var/plexguide/.drivelog; else echo "TCRYPT2:  Failed" >>/var/plexguide/.drivelog; fi
 }
 
+
 gdsamod() {
   initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf GDSA01: | grep -oP plexguide | head -n1)
   if [[ "$initial" != "plexguide" ]]; then
@@ -249,7 +253,6 @@ gdsamod() {
 
   if [[ "$initial" == "plexguide" ]]; then echo "GDSA01 :  Passed" >>/var/plexguide/.drivelog; else echo "GDSA01 :  Failed" >>/var/plexguide/.drivelog; fi
 }
-
 gdsacryptmod() {
   initial=$(rclone lsd --config /opt/appdata/plexguide/rclone.conf GDSA01C: | grep -oP encrypt | head -n1)
 
@@ -263,7 +266,6 @@ gdsacryptmod() {
 }
 ################################################################################
 deployblitzstartcheck() {
-
   pgclonevars
   if [[ "$displaykey" == "0" ]]; then
     tee <<-EOF
@@ -325,7 +327,6 @@ cleanmounts() {
   mount="/mnt/tcrypt/"
   cleanmount
 }
-
 cleanmount() {
   maxsize=1000000
   if [ -d "$mount" ]; then
@@ -341,7 +342,6 @@ cleanmount() {
     fi
   fi
 }
-
 failclean() {
   tee <<-EOF
 
@@ -366,12 +366,10 @@ EOF
 
   exit
 }
-
 restartapps() {
   echo "restarting apps..."
   docker restart $(docker ps -a -q) >/dev/null
 }
-
 deployFail() {
   # output final display
   if [[ "$transport" == "bu" ]]; then
