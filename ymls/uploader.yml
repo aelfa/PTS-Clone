@@ -17,6 +17,11 @@
         intport: '8080'
         extport: '7777'
         image: 'mrdoob/rccup:latest'
+
+    - name: 'Register  Download Drive'
+      shell: 'cat /var/plexguide/server.hd.path'
+      register: downloadpath
+
     # CORE (MANDATORY) ############################################################
     - name: 'Including main job'
       include_tasks: './core.yml'
@@ -24,6 +29,7 @@
       include_tasks: './cleaner.yml'
     - name: 'Including key and rclone job'
       include_tasks: './key.yml'
+
     # LABELS ######################################################################
     - name: 'Adding Traefik'
       set_fact:
@@ -48,7 +54,7 @@
         pg_volumes:
           - '/opt/appdata/{{pgrole}}/:/config'
           - '/mnt/unionfs:/unionfs:shared'
-          - '{{path.stdout}}/downloads:/move:shared'
+          - '{{downloadpath.stdout}}/downloads:/move:shared'
 
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
