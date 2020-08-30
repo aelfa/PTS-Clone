@@ -50,13 +50,7 @@
     force: yes
     mode: 0755
   with_items:
-    - ndrive
-    - ndrives
-    - npgunion
-    - npgexclude
-    - npgexcludes
-    - nrclone
-    - nrcloneenv
+    - mgupdate
+    - rcupdate
     - pglog
-    - pglogs
     - tlogs
