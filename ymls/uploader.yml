@@ -53,20 +53,12 @@
       set_fact:
         pg_volumes:
           - '/opt/appdata/{{pgrole}}/:/config'
-          - '/mnt/unionfs:/unionfs:shared'
-          - '{{downloadpath.stdout}}/downloads:/move:shared'
-
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
           PUID: '1000'
           PGID: '1000'
           TZ: '${TZ}'
-          DISABLE_UNIONFS_CHOWN: 'true'
-          DISABLE_TDRIVE1: 'true'
-          DISABLE_TDRIVE2: 'true'
-          DISABLE_GDRIVE: 'true'
-          DISABLE_MERGERFS: 'true'
           BWLIMITSET: '80'
           CHUNK: '32'
           DISCORD_WEBHOOK_URL: 'null'
@@ -102,3 +94,9 @@
               - '{{pgrole}}'
         state: started
         labels: '{{pg_labels}}'
+        mounts:
+          -  source: '{{downloadpath.stdout}}/downloads'
+             target: '/move'
+             type: bind
+             consistency: consistent
+             propagation: shared
