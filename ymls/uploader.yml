@@ -22,6 +22,9 @@
       shell: 'cat /var/plexguide/server.hd.path'
       register: downloadpath
 
+    - name: ' Register Timezone'
+      shell: 'cat /etc/timezone'
+      register: TZ
     # CORE (MANDATORY) ############################################################
     - name: 'Including main job'
       include_tasks: './core.yml'
@@ -58,7 +61,7 @@
         pg_env:
           PUID: '1000'
           PGID: '1000'
-          TZ: '${TZ}'
+          TZ: '{{TZ}}'
           BWLIMITSET: '80'
           CHUNK: '32'
           DISCORD_WEBHOOK_URL: 'null'
