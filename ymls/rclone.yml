@@ -6,17 +6,17 @@
 # GNU:        General Public License v3.0
 ################################################################################
 ---
-- name: 'Check of Existance files in {{ pgrole }}'
+- name: 'Check of Existance files in {{pgrole}}'
   stat:
     path: '/opt/appdata/{{pgrole}}/rclone.conf'
   register: rcp
 
-- name: 'Remove old rclone.conf from {{ pgrole }} folder'
+- name: 'Remove old rclone.conf from {{pgrole}} folder'
   shell: 'rm -rf /opt/appdata/{{pgrole}}/rclone.conf'
   ignore_errors: yes
   when: rcp.stat.exists == true
 
-- name: 'Clone rclone.config to {{ pgrole }} folder' 
+- name: 'Clone rclone.config to {{pgrole}} folder' 
   copy:
     src: /opt/appdata/plexguide/rclone.conf
     dest: /opt/appdata/{{pgrole}}/rclone.conf
