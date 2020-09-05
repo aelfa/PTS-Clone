@@ -13,8 +13,8 @@ EOF
 function clone() {
     sudo rm -rf /opt/pgclone
     sudo git clone --quiet https://github.com/doob187/pgclone.git /opt/pgclone
-    sudo chown -cR 1000:1000 /opt/pgclone/
-    sudo chmod -cR 755 /opt/pgclone
+    sudo chown -cR 1000:1000 /opt/pgclone/ 1>/dev/null 2>&1
+    sudo chmod -cR 755 /opt/pgclone >> /dev/null 1>/dev/null 2>&1
     sudo bash /opt/pgclone/pgclone.sh
 }
 sudocheck
