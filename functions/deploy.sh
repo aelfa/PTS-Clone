@@ -58,7 +58,7 @@ ddmounts() {
 	🚀      Deploy of Docker Mounts
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	EOF
-    removeoldui
+        removeoldui
 	cleanlogs
 	ansible-playbook /opt/pgclone/ymls/mounts.yml
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
@@ -101,13 +101,11 @@ EOF
     read -p '↘️  Acknowledge Info | Press [ENTER] ' typed2 </dev/tty
     clonestart
 }
-
-
 ### Docker Uploader Deploy start ##
 deploydockermount() {
 UI=$(docker ps --format '{{.Names}}' | grep "mounts")
 if [[ "$UI" != "mounts" ]]; then 
-nounionrunning
+norcloneconf
 else deploymounts; fi
 }
 norcloneconf() {
@@ -161,7 +159,7 @@ dduploader() {
 	🚀      Deploy of Docker Uploader
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	EOF
-    removeoldui
+        removeoldui
 	cleanlogs
 	ansible-playbook /opt/pgclone/ymls/uploader.yml
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
@@ -219,6 +217,7 @@ EOF
   if [[ "$transport" == "mu" ]]; then
     gdrivemod
     multihdreadonly
+    deploydockermount
   elif [[ "$transport" == "me" ]]; then
     gdrivemod
     gcryptmod
@@ -228,6 +227,7 @@ EOF
     tdrivemod
     gdsamod
     multihdreadonly
+    deploydockermount
   elif [[ "$transport" == "be" ]]; then
     gdrivemod
     tdrivemod
@@ -236,6 +236,7 @@ EOF
     tcryptmod
     gdsacryptmod
     multihdreadonly
+    deploydockermount
   fi
   cat /var/plexguide/.drivelog
   logcheck=$(cat /var/plexguide/.drivelog | grep "Failed")
