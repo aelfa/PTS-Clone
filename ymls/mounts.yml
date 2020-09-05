@@ -16,7 +16,7 @@
         extport: '7755'
     # CORE (MANDATORY) ############################################################
     - name: 'Including main job'
-      include_tasks: './core.yml'
+      include_tasks: '/opt/coreapps/apps/_core.yml'
     - name: 'Including rclone job'
       include_tasks: './rclone.yml'
     - name: 'Register  Download Drive'
@@ -74,9 +74,10 @@
               - '{{pgrole}}'
         state: started
         labels: '{{pg_labels}}'
-        mount:
+        mounts:
           -  source: '/mnt/unionfs'
              target: '/mnt/unionfs'
              type: bind
              consistency: consistent
              propagation: shared
+#<EOF>#
