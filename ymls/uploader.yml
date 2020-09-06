@@ -52,6 +52,12 @@
           traefik.frontend.headers.forceSTSHeader: 'true'
           traefik.frontend.redirect.entryPoint: 'https'
 
+    - name: 'Setting {{pgrole}} Volumes'
+      set_fact:
+        pg_volumes:
+          - '/opt/appdata/{{pgrole}}/:/config'
+          - '/mnt/downloads:/move'
+
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
@@ -76,6 +82,7 @@
         pull: yes
         published_ports:
           - '{{ports.stdout}}{{extport}}:{{intport}}'
+        volumes: '{{pg_volumes}}'
         env: '{{pg_env}}'
         capabilities:
           - 'SYS_ADMIN'
@@ -91,14 +98,4 @@
               - '{{pgrole}}'
         state: started
         labels: '{{pg_labels}}'
-        mounts:
-          -  source: '/mnt/downloads'
-             target: '/move'
-             type: bind
-             consistency: consistent
-             propagation: shared
-          -  source: '/opt/appdata/{{pgrole}}/'
-             target: '/config'
-             type: bind
-             consistency: consistent
-             propagation: shared
+
