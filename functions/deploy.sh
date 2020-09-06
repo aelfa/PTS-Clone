@@ -1,8 +1,7 @@
 #!/bin/bash
 #
-# Title:      Docker Uploader 
-# Author(s):  PhyskX
-# CoAuthot:   MrDoob
+# Title:      basic parts 
+# Author:     MrDoob
 # GNU:        General Public License v3.0
 ################################################################################
 deploypgblitz() {
@@ -26,8 +25,8 @@ deploypgblitz() {
   deploydrives
 }
 updatesystem () {
-	# update system to new packages
-    ansible-playbook /opt/pgclone/ymls/update.yml
+  # update system to new packages
+  ansible-playbook /opt/pgclone/ymls/update.yml
 }
 deploypgmove() {
   # RCLONE BUILD
@@ -51,7 +50,7 @@ fi
 }
 deploymounts() {
 dmounts=$(docker ps --format '{{.Names}}' | grep "mount")
-if [[ "$dmounts" != "mounts" ]]; then
+if [[ "$dmounts" != "mount" ]]; then
    ddmounts
 else ddmountsredeploy; fi
 }
@@ -110,9 +109,9 @@ EOF
 }
 ### Docker Uploader Deploy start ##
 deploydockermount() {
-UI=$(docker ps --format '{{.Names}}' | grep "mounts")
+UI=$(docker ps --format '{{.Names}}' | grep "mount")
 if [[ "$UI" != "mount" ]]; then 
-norcloneconf
+   norcloneconf
 else deploymounts; fi
 }
 norcloneconf() {
@@ -120,7 +119,7 @@ rcc=/opt/appdata/plexguide/rclone.conf
 if [[ ! -f "$rcc" ]]; then
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⛔ Fail Notice deploy of Docker Mounts
+       ⛔ Fail Notice deploy of Docker Mounts
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
  Sorry we cant  Deploy the Docker Mounts.
@@ -138,7 +137,7 @@ rcc=/opt/appdata/plexguide/rclone.conf
 if [[ ! -f "$rcc" ]]; then
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⛔ Fail Notice for deploy of Docker Uploader
+       ⛔ Fail Notice for deploy of Docker Uploader
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
  Sorry we cant  Deploy the Docker Uploader.
@@ -146,7 +145,7 @@ tee <<-EOF
  please deploy first the docker mounts.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-⛔ Fail Notice for deploy of Docker Uploader 
+       ⛔ Fail Notice for deploy of Docker Uploader 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
@@ -167,12 +166,12 @@ dduploader() {
 	EOF
     updatesystem
     removeoldui
-	cleanlogs
-	ansible-playbook /opt/pgclone/ymls/uploader.yml
+    cleanlogs
+    ansible-playbook /opt/pgclone/ymls/uploader.yml
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
   tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-	💪     DEPLOYED sucessfully !
+    💪     DEPLOYED sucessfully !
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      The Uploader is under
      https://uploader.${domain}
@@ -199,7 +198,7 @@ domain=$(cat /var/plexguide/server.domain)
 ip=$(cat /var/plexguide/server.ip)
   tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-	💪     DEPLOYED sucessfully !
+     💪     DEPLOYED sucessfully !
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      The Uploader is under
      https://uploader.${domain}
@@ -215,7 +214,7 @@ deploydrives() {
   fail=0
   tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🚀 Conducting RClone Mount Checks
+      🚀 Conducting RClone Mount Checks
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
 
@@ -232,6 +231,7 @@ EOF
     gcryptmod
     updatesystem	
     multihdreadonly
+    deploydockermount
   elif [[ "$transport" == "bu" ]]; then
     gdrivemod
     tdrivemod
