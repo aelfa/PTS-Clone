@@ -80,4 +80,8 @@
              type: bind
              consistency: consistent
              propagation: shared
-#<EOF>#
+          -  source: '{{downloadpath.stdout}}/downloads'
+             target: '/move'
+             type: bind
+             consistency: consistent
+             propagation: shared
