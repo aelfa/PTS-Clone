@@ -25,7 +25,10 @@ deploypgblitz() {
   cat /opt/appdata/plexguide/.keys >>/opt/appdata/plexguide/rclone.conf
   deploydrives
 }
-
+updatesystem () {
+	# update system to new packages
+    ansible-playbook /opt/pgclone/ymls/update.yml
+}
 deploypgmove() {
   # RCLONE BUILD
   echo "#------------------------------------------" >/opt/appdata/plexguide/rclone.conf
@@ -47,7 +50,7 @@ if [[ "$UI" == "pgui" ]]; then
 fi
 }
 deploymounts() {
-dmounts=$(docker ps --format '{{.Names}}' | grep "mounts")
+dmounts=$(docker ps --format '{{.Names}}' | grep "mount")
 if [[ "$dmounts" != "mounts" ]]; then
    ddmounts
 else ddmountsredeploy; fi
@@ -58,6 +61,7 @@ ddmounts() {
 	🚀      Deploy of Docker Mounts
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	EOF
+   updatesystem
    removeoldui
    cleanlogs
    ansible-playbook /opt/pgclone/ymls/remove-2.yml
@@ -68,7 +72,7 @@ ddmounts() {
 	💪     DEPLOYED sucessfully !
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      The Mounts is under
-     https://mounts.${domain}
+     https://mount.${domain}
      or
      http://${ip}:7755
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -83,10 +87,11 @@ ddmountsredeploy() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	EOF
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
-  removeoldui
-  cleanlogs
-  ansible-playbook /opt/pgclone/ymls/remove-2.yml
-  ansible-playbook /opt/pgclone/ymls/mounts.yml
+   updatesystem
+   removeoldui
+   cleanlogs
+   ansible-playbook /opt/pgclone/ymls/remove-2.yml
+   ansible-playbook /opt/pgclone/ymls/mounts.yml
   sleep 10
 domain=$(cat /var/plexguide/server.domain)
 ip=$(cat /var/plexguide/server.ip)
@@ -95,7 +100,7 @@ ip=$(cat /var/plexguide/server.ip)
 	💪     DEPLOYED sucessfully !
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      The Mounts is under
-     https://mounts.${domain}
+     https://mount.${domain}
      or
      http://${ip}:7755
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -106,7 +111,7 @@ EOF
 ### Docker Uploader Deploy start ##
 deploydockermount() {
 UI=$(docker ps --format '{{.Names}}' | grep "mounts")
-if [[ "$UI" != "mounts" ]]; then 
+if [[ "$UI" != "mount" ]]; then 
 norcloneconf
 else deploymounts; fi
 }
@@ -160,6 +165,7 @@ dduploader() {
 	🚀      Deploy of Docker Uploader
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	EOF
+    updatesystem
     removeoldui
 	cleanlogs
 	ansible-playbook /opt/pgclone/ymls/uploader.yml
@@ -184,9 +190,10 @@ ddredeploy() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 	EOF
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
-  removeoldui
-  cleanlogs
-  ansible-playbook /opt/pgclone/ymls/uploader.yml
+   updatesystem
+   removeoldui
+   cleanlogs
+   ansible-playbook /opt/pgclone/ymls/uploader.yml
   sleep 10
 domain=$(cat /var/plexguide/server.domain)
 ip=$(cat /var/plexguide/server.ip)
@@ -218,16 +225,19 @@ EOF
   if [[ "$transport" == "mu" ]]; then
     gdrivemod
     multihdreadonly
+    updatesystem	
     deploydockermount
   elif [[ "$transport" == "me" ]]; then
     gdrivemod
     gcryptmod
+    updatesystem	
     multihdreadonly
   elif [[ "$transport" == "bu" ]]; then
     gdrivemod
     tdrivemod
     gdsamod
     multihdreadonly
+    updatesystem
     deploydockermount
   elif [[ "$transport" == "be" ]]; then
     gdrivemod
@@ -237,6 +247,7 @@ EOF
     tcryptmod
     gdsacryptmod
     multihdreadonly
+    updatesystem
     deploydockermount
   fi
   cat /var/plexguide/.drivelog
