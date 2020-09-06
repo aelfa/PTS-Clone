@@ -24,7 +24,7 @@ deploypgblitz() {
   cat /opt/appdata/plexguide/.keys >>/opt/appdata/plexguide/rclone.conf
   deploydrives
 }
-updatesystem () {
+updatesystem() {
   # update system to new packages
   ansible-playbook /opt/pgclone/ymls/update.yml
 }
