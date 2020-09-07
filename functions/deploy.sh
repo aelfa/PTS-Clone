@@ -41,6 +41,13 @@ deploypgmove() {
   fi
   deploydrives
 }
+stopmunts() {
+mount=$(docker ps --format '{{.Names}}' | grep "mount**")
+if [[ "$mount" == "mount**" ]]; then 
+   docker stop mount** >> /dev/null
+   fusermount -uzq /mnt/unionfs >> /dev/null
+fi
+}
 removeoldui() {
 UI=$(docker ps --format '{{.Names}}' | grep "pgui")
 if [[ "$UI" == "pgui" ]]; then 
@@ -59,6 +66,7 @@ EOF
    updatesystem
    removeoldui
    cleanlogs
+   stopmunts
    ansible-playbook /opt/pgclone/ymls/remove-2.yml
    ansible-playbook /opt/pgclone/ymls/mounts.yml
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
@@ -79,15 +87,15 @@ norcloneconf() {
 rcc=/opt/appdata/plexguide/rclone.conf
 if [[ ! -f "$rcc" ]]; then
 tee <<-EOF
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       ⛔ Fail Notice for deploy of Docker Uploader
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       Sorry we cant  Deploy the Docker Uploader.
-       No docker mounts are running , 
-       please deploy first the docker mounts.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-       ⛔ Fail Notice for deploy of Docker Uploader 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    ⛔ Fail Notice for deploy of Docker Uploader
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    Sorry we cant  Deploy the Docker Uploader.
+    No docker mounts are running , 
+    please deploy first the docker mounts.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⛔ Fail Notice for deploy of Docker Uploader 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
 clonestart
@@ -98,7 +106,7 @@ fi
 deploydockeruploader() {
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     🚀      Deploy of Docker Uploader
+     🚀  Deploy of Docker Uploader
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
     norcloneconf
@@ -135,14 +143,16 @@ EOF
   if [[ "$transport" == "mu" ]]; then
     gdrivemod 
     multihdreadonly
-    updatesystem	
+    updatesystem
+    stopmunts
     deploydockermount
     deploydockeruploader
   elif [[ "$transport" == "me" ]]; then
     gdrivemod
     gcryptmod
-    updatesystem	
+    updatesystem
     multihdreadonly
+    stopmunts
     deploydockermount
     deploydockeruploader
   elif [[ "$transport" == "bu" ]]; then
@@ -151,6 +161,7 @@ EOF
     gdsamod
     multihdreadonly
     updatesystem
+    stopmunts
     deploydockermount
     deploydockeruploader
   elif [[ "$transport" == "be" ]]; then
@@ -162,6 +173,7 @@ EOF
     gdsacryptmod
     multihdreadonly
     updatesystem
+    stopmunts
     deploydockermount
     deploydockeruploader
   fi
