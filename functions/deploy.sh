@@ -88,13 +88,12 @@ rcc=/opt/appdata/plexguide/rclone.conf
 if [[ ! -f "$rcc" ]]; then
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    ⛔ Fail Notice for deploy of Docker Uploader
+    ⛔ Fail Notice for deploy of Docker 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    Sorry we cant  Deploy the Docker Uploader.
-    No docker mounts are running , 
-    please deploy first the docker mounts.
+     Sorry we cant Deploy the Docker.
+     We cant find any rclone.conf file 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   ⛔ Fail Notice for deploy of Docker Uploader 
+    ⛔ Fail Notice for deploy of Docker
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
