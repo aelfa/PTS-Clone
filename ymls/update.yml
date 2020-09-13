@@ -25,7 +25,7 @@
     - name: upgrade system
       shell: apt-get upgrade -y
     - name: remove old packages
-      shell: apt-get autoremove-y
+      shell: apt-get autoremove -y
 
     - name: apt-get dist-upgrade
       apt:
