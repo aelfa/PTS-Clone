@@ -306,8 +306,6 @@ prunedocker() {
 }
 ################################################################################
 deploySuccess() {
-domain=$(cat /var/plexguide/server.domain)
-ip=$(cat /var/plexguide/server.ip)
   tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💪 DEPLOYED: $finaldeployoutput
@@ -317,17 +315,15 @@ ip=$(cat /var/plexguide/server.ip)
 
   The Uploader is under
 
-     https://uploader.${domain}
+     https://uploader.$(cat /var/plexguide/server.domain)
      or
-     http://${ip}:7777
+     http://$(cat /var/plexguide/server.ip):7777
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
 }
 deploymountSuccess() {
-domain=$(cat /var/plexguide/server.domain)
-ip=$(cat /var/plexguide/server.ip)
   tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💪 DEPLOYED: $finaldeployoutput
@@ -337,9 +333,9 @@ ip=$(cat /var/plexguide/server.ip)
 
   The Mounts is under
 
-     https://mounts.${domain}
+     https://mounts.$(cat /var/plexguide/server.domain)
      or
-     http://${ip}:7755
+     http://$(cat /var/plexguide/server.ip):7755
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
