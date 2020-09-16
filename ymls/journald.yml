@@ -3,7 +3,7 @@
   template:
     dest: /etc/systemd/journald.conf
     force: true
-    src: /opt/pgclone/templates/journald.conf.j2
+    src: /opt/pgclone/journald/journald.conf.j2
 
 - name: systemd reloading
   systemd:
