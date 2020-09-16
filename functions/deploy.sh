@@ -313,7 +313,8 @@ cleanlogs() {
   journalctl --flush
   journalctl --rotate
   journalctl --vacuum-time=1s
-  truncate -s 0 /var/plexguide/logs/*.log
+  rm -rf /var/plexguide/logs/*.log
+  find /var/logs -name "*.gz" -delete  
 }
 prunedocker() {
   echo "Prune docker images and volumes..."
