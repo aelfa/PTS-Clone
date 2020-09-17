@@ -30,7 +30,7 @@
       include_tasks: './cleaner.yml'
     - name: 'Including key and rclone job'
       include_tasks: './key.yml'
-    - name: 'Including journal jobs
+    - name: 'Including journal jobs'
       include_tasks: './journald.yml'
     # LABELS ######################################################################
     - name: 'Adding Traefik'
