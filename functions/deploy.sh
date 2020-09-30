@@ -208,7 +208,7 @@ EOF
 
 ########################################################################################
 timer() {
-seconds=90; date1=$((`date +%s` + $seconds)); 
+seconds=5; date1=$((`date +%s` + $seconds)); 
 while [ "$date1" -ge `date +%s` ]; do 
   echo -ne "$(date -u --date @$(($date1 - `date +%s` )) +%H:%M:%S)\r"; 
 done
