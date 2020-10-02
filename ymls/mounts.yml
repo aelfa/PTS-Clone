@@ -53,6 +53,7 @@
     - name: 'Deploying {{pgrole}}'
       docker_container:
         name: '{{pgrole}}'
+        hostname: '{{pgrole}}'
         image: 'mrdoob/rccmount:latest'
         pull: yes
         published_ports:
