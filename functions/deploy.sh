@@ -26,7 +26,12 @@ deploypgblitz() {
 }
 updatesystem() {
   # update system to new packages
-  sudo pip install --ignore-installed --upgrade ansible 2>&1 >>/dev/null
+  apt-get update -yq && apt-get upgrade -yq
+  pip uninstall ansible 2>&1 >>/dev/null
+  pip install ansible-base 2>&1 >>/dev/null
+  pip install ansible 2>&1 >>/dev/null
+  python3 -m pip install ansible 2>&1 >>/dev/null
+  pip install --ignore-installed --upgrade ansible 2>&1 >>/dev/null
   ansible-playbook /opt/pgclone/ymls/update.yml 2>&1 >>/dev/null
 }
 deploypgmove() {
@@ -314,7 +319,7 @@ cleanlogs() {
   journalctl --rotate
   journalctl --vacuum-time=1s
   rm -rf /var/plexguide/logs/*.log
-  find /var/logs -name "*.gz" -delete  
+  find /var/logs -name "*.gz" -delete
 }
 prunedocker() {
   echo "Prune docker images and volumes..."
