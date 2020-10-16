@@ -34,18 +34,6 @@ updatesystem() {
   pip install --ignore-installed --upgrade ansible 2>&1 >>/dev/null
   ansible-playbook /opt/pgclone/ymls/update.yml 2>&1 >>/dev/null
 }
-deploypgmove() {
-  # RCLONE BUILD
-  echo "#------------------------------------------" >/opt/appdata/plexguide/rclone.conf
-  echo "# rClone.config created over rclone"  >>/opt/appdata/plexguide/rclone.conf
-  echo "#------------------------------------------" >>/opt/appdata/plexguide/rclone.conf
-  cat /opt/appdata/plexguide/.gdrive >/opt/appdata/plexguide/rclone.conf
-  if [[ $(cat "/opt/appdata/plexguide/.gcrypt") != "NOT-SET" ]]; then
-    echo ""
-    cat /opt/appdata/plexguide/.gcrypt >>/opt/appdata/plexguide/rclone.conf
-  fi
-  deploydrives
-}
 stopmunts() {
 mount=$(docker ps --format '{{.Names}}' | grep "mount**")
 if [[ "$mount" == "mount**" ]]; then 
@@ -159,22 +147,7 @@ EOF
   if [ -e "/var/plexguide/.drivelog" ]; then rm -rf /var/plexguide/.drivelog; fi
   touch /var/plexguide/.drivelog
   transport=$(cat /var/plexguide/pgclone.transport)
-  if [[ "$transport" == "mu" ]]; then
-    gdrivemod 
-    multihdreadonly
-    updatesystem
-    stopmunts
-    deploydockermount
-    deploydockeruploader
-  elif [[ "$transport" == "me" ]]; then
-    gdrivemod
-    gcryptmod
-    updatesystem
-    multihdreadonly
-    stopmunts
-    deploydockermount
-    deploydockeruploader
-  elif [[ "$transport" == "bu" ]]; then
+  if [[ "$transport" == "bu" ]]; then
     gdrivemod
     tdrivemod
     gdsamod
@@ -199,8 +172,7 @@ EOF
   cat /var/plexguide/.drivelog
   logcheck=$(cat /var/plexguide/.drivelog | grep "Failed")
   if [[ "$logcheck" == "" ]]; then
-    if [[ "$transport" == "mu" || "$transport" == "me" ]]; then executemove; fi
-    if [[ "$transport" == "bu" || "$transport" == "be" ]]; then executeblitz; fi
+     if [[ "$transport" == "bu" || "$transport" == "be" ]]; then executeblitz; fi
   else
     if [[ "$transport" == "me" || "$transport" == "be" ]]; then
       emessage="
