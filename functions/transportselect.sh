@@ -11,7 +11,6 @@ transportselect() {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💪 Set Clone Method 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-NOTE: Please visit the link and understand what your doing first!
 
 [1] TDrive-Unencrypt: Data > Complex | Exceed 750GB Transport Cap
 [2] TDrive-Encrypted: Data > Complex | Exceed 750GB Transport Cap
