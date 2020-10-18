@@ -49,7 +49,9 @@ if [[ "$UI" == "pgui" ]]; then
    rm -rf /opt/appdata/pgui/ >> /dev/null
 fi
 }
-
+update_pip() {
+pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U
+}
 vnstat() {
 apt-get install ethtool vnstat vnstati -yqq 2>&1 >>/dev/null
 export DEBIAN_FRONTEND=noninteractive
@@ -70,6 +72,7 @@ tee <<-EOF
 EOF
    vnstat
    norcloneconf
+   update_pip
    updatesystem
    removeoldui
    cleanlogs
@@ -115,12 +118,13 @@ tee <<-EOF
      🚀  Deploy of Docker Uploader
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-    vnstat
-    norcloneconf
-    updatesystem
-    removeoldui
-    cleanlogs
-    ansible-playbook /opt/pgclone/ymls/uploader.yml
+   vnstat
+   norcloneconf
+   update_pip
+   updatesystem
+   removeoldui
+   cleanlogs
+   ansible-playbook /opt/pgclone/ymls/uploader.yml
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -290,8 +294,9 @@ cleanlogs() {
   journalctl --flush
   journalctl --rotate
   journalctl --vacuum-time=1s
-  rm -rf /var/plexguide/logs/*.log
-  find /var/logs -name "*.gz" -delete
+  truncate -s 0 /var/plexguide/logs/*.log
+  rm -rf /var/plexguide/logs/ >>/dev/null 2>&1
+  find /var/logs -name "*.gz" -delete >>/dev/null 2>&1
 }
 prunedocker() {
   echo "Prune docker images and volumes..."
