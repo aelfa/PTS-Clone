@@ -1,8 +1,7 @@
 #!/bin/bash
 #
-# Title:      Docker Uploader
-# Author(s):  PhyskX
-# CoAuthot:   MrDoob
+# Title:      Docker Mount
+# Authot:     MrDoob
 # GNU:        General Public License v3.0
 ################################################################################
 ---
@@ -18,15 +17,13 @@
     # CORE (MANDATORY) ############################################################
     - name: 'Including main job'
       include_tasks: '/opt/coreapps/apps/_core.yml'
-    - name: 'Register  Download Drive'
-      shell: 'cat /var/plexguide/server.hd.path'
-      register: downloadpath
-
-    # CORE (MANDATORY) ############################################################
-    - name: 'Including main job'
-      include_tasks: './core.yml'
     - name: 'Including rclone job'
       include_tasks: './rclone.yml'
+    - name: 'Including journal jobs'
+      include_tasks: './journald.yml'
+    - name: 'Register Download Drive'
+      shell: 'cat /var/plexguide/server.hd.path'
+      register: downloadpath
     # LABELS ######################################################################
     - name: 'Adding Traefik'
       set_fact:
@@ -46,12 +43,6 @@
           traefik.frontend.headers.forceSTSHeader: 'true'
           traefik.frontend.redirect.entryPoint: 'https'
 
-    - name: 'Setting {{pgrole}} Volumes'
-      set_fact:
-        pg_volumes:
-          - '/opt/appdata/{{pgrole}}/:/config'
-          - '/mnt/unionfs:/mnt/unionfs:shared'
-          - '/mnt/downloads:/mnt/downloads'
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
@@ -62,11 +53,15 @@
     - name: 'Deploying {{pgrole}}'
       docker_container:
         name: '{{pgrole}}'
-        image: 'mrdoob/rccmount:deverlop'
+        hostname: '{{pgrole}}'
+        image: 'mrdoob/rccmount:latest'
         pull: yes
         published_ports:
-          - '{{ports.stdout}}{{extport}}:{{intport}}'
-        volumes: '{{pg_volumes}}'
+          - '{{extport}}:{{intport}}'
+        volumes:
+          - '/opt/appdata/{{pgrole}}/:/config'
+          - '{{downloadpath.stdout}}/downloads:/mnt/downloads'
+          - '/var/run/docker.sock:/var/run/docker.sock'
         env: '{{pg_env}}'
         capabilities:
           - 'SYS_ADMIN'
@@ -80,5 +75,14 @@
           - name: plexguide
             aliases:
               - '{{pgrole}}'
+        dns_servers:
+          - '8.8.8.8'
+          - '8.8 4.4'
         state: started
         labels: '{{pg_labels}}'
+        mounts:
+          -  source: '/mnt/unionfs'
+             target: '/mnt/unionfs'
+             type: bind
+             consistency: consistent
+             propagation: shared

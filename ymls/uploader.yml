@@ -1,8 +1,7 @@
 #!/bin/bash
 #
-# Title:           Docker Uploader 
-# Author(s):       PhyskX
-# CoAuthor:        MrDoob
+# Title:           Docker Uploader
+# Author:          MrDoob
 # Dockerowner:     MrDoob
 # GNU:             General Public License v3.0
 ################################################################################
@@ -21,15 +20,18 @@
     - name: 'Register  Download Drive'
       shell: 'cat /var/plexguide/server.hd.path'
       register: downloadpath
-
+    - name: 'Register Timezone'
+      shell: 'cat /etc/timezone'
+      register: TZone
     # CORE (MANDATORY) ############################################################
     - name: 'Including main job'
-      include_tasks: './core.yml'
+      include_tasks: '/opt/coreapps/apps/_core.yml'
     - name: 'Including cleaner job'
       include_tasks: './cleaner.yml'
     - name: 'Including key and rclone job'
       include_tasks: './key.yml'
-
+    - name: 'Including journal jobs'
+      include_tasks: './journald.yml'
     # LABELS ######################################################################
     - name: 'Adding Traefik'
       set_fact:
@@ -53,20 +55,13 @@
       set_fact:
         pg_volumes:
           - '/opt/appdata/{{pgrole}}/:/config'
-          - '/mnt/unionfs:/unionfs:shared'
-          - '{{downloadpath.stdout}}/downloads:/move:shared'
+          - '/mnt/downloads:/move'
 
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
           PUID: '1000'
           PGID: '1000'
-          TZ: '${TZ}'
-          DISABLE_UNIONFS_CHOWN: 'true'
-          DISABLE_TDRIVE1: 'true'
-          DISABLE_TDRIVE2: 'true'
-          DISABLE_GDRIVE: 'true'
-          DISABLE_MERGERFS: 'true'
           BWLIMITSET: '80'
           CHUNK: '32'
           DISCORD_WEBHOOK_URL: 'null'

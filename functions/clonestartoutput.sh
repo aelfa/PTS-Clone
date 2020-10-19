@@ -123,7 +123,7 @@ clonestart() {
         tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💪 Welcome to the Local-Edition               mergerfs $mgstored
+💪 Welcome to the Local-Edition || mergerfs $mgstored
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
@@ -146,15 +146,16 @@ EOF
         tee <<-EOF
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💪 Welcome to rClone      rclone $rcstored || mergerfs $mgstored
+💪 Welcome to rClone      rclone $rcstored
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
         clonestartoutput
         dockerstatus
+        dockerstatusmounts
         tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[A] Deploy Docker Mounts     [ $dmstatus ] - [ $outputversion ]
+[A] Deploy Docker Mounts     [ $dmstatus ]
 [D] Deploy Docker Uploader   [ $dstatus ] - [ $output ]
 [O] Options
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -171,10 +172,12 @@ upper=$(docker ps --format '{{.Names}}' | grep "uploader")
 if [[ "$upper" == "uploader" ]]; then
  dstatus="✅ DEPLOYED"
   else dstatus="⚠️ NOT DEPLOYED"; fi
-dmount=$(docker ps --format '{{.Names}}' | grep "mounts")
-if [[ "$dmount" == "mounts" ]]; then
- dmtatus="✅ DEPLOYED"
-  else dstatus="⚠️ NOT DEPLOYED"; fi
+}
+dockerstatusmounts() {
+dmount=$(docker ps --format '{{.Names}}' | grep "mount")
+if [[ "$dmount" == "mount" ]]; then
+ dmstatus="✅ DEPLOYED"
+  else dmstatus="⚠️ NOT DEPLOYED"; fi
 }
 localstartoutput() {
     case $typed in
