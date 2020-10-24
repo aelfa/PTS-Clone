@@ -73,8 +73,8 @@
             aliases:
               - '{{pgrole}}'
         dns_servers:
-           - '8.8.8.8'
-           - '8.8.4.4'
+          - '8.8.8.8'
+          - '8.8.4.4'
         state: started
         labels: '{{pg_labels}}'
         mounts:
