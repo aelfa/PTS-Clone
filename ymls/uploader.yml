@@ -94,11 +94,11 @@
         state: started
         labels: '{{pg_labels}}'
         dns_servers:                           
-           - '8.8.8.8'                         
-           - '8.8.4.4'                         
-        mounts:                                
-           - source: '/mnt/downloads'         
-             target: '/move'                   
-             type: bind                        
-             consistency: consistent           
+           - '8.8.8.8'
+           - '8.8.4.4'
+        mounts:
+           - source: '/mnt/downloads'
+             target: '/move'
+             type: bind
+             consistency: consistent
              propagation: rshared
