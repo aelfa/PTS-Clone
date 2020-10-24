@@ -87,9 +87,9 @@
              target: '/mnt/downloads'
              type: bind
              consistency: consistent
-             propagation: rshared:                                
-           - source: '/mnt/rclone_cache'         
-             target: '/tmp/rclone_cache'                   
-             type: bind                        
-             consistency: consistent           
+             propagation: rshared
+          -  source: '/mnt/rclone_cache'
+             target: '/tmp/rclone_cache'
+             type: bind
+             consistency: consistent
              propagation: rshared
