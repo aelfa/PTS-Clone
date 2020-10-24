@@ -83,9 +83,14 @@
              target: '/mnt/unionfs'
              type: bind
              consistency: consistent
-             propagation: shared
+             propagation: rshared
           -  source : '/mnt/downloads'
              target: '/mnt/downloads'
              type: bind
              consistency: consistent
-             propagation: shared
+             propagation: rshared:                                
+           - source : '/mnt/rclone_cache'         
+             target: '/tmp/rclone_cache'                   
+             type: bind                        
+             consistency: consistent           
+             propagation: rshared
