@@ -42,7 +42,6 @@
           traefik.frontend.headers.customResponseHeaders: 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
           traefik.frontend.headers.forceSTSHeader: 'true'
           traefik.frontend.redirect.entryPoint: 'https'
-
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
@@ -60,7 +59,6 @@
           - '{{extport}}:{{intport}}'
         volumes:
           - '/opt/appdata/{{pgrole}}/:/config'
-          - '{{downloadpath.stdout}}/downloads:/mnt/downloads'
           - '/var/run/docker.sock:/var/run/docker.sock'
         env: '{{pg_env}}'
         capabilities:
@@ -77,12 +75,17 @@
               - '{{pgrole}}'
         dns_servers:
           - '8.8.8.8'
-          - '8.8 4.4'
+          - '8.8.4.4'
         state: started
         labels: '{{pg_labels}}'
         mounts:
           -  source: '/mnt/unionfs'
              target: '/mnt/unionfs'
+             type: bind
+             consistency: consistent
+             propagation: shared
+          -  source : '/mnt/downloads'
+             target: '/mnt/downloads'
              type: bind
              consistency: consistent
              propagation: shared
