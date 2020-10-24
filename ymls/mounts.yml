@@ -47,7 +47,6 @@
         pg_env:
           PUID: '1000'
           PGID: '1000'
-          TZ: 'Europe/London'
      ########## DEPLOYMENT ##########
     - name: 'Deploying {{pgrole}}'
       docker_container:
