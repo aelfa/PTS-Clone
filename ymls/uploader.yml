@@ -67,13 +67,12 @@
           SERVERSIDE: 'false'
           LOGHOLDUI: '5m'
           CLEANUPDOWN: '7'
-
      ########## DEPLOYMENT ##########
-
     - name: 'Deploying {{pgrole}}'
       docker_container:
         name: '{{pgrole}}'
         image: '{{image}}'
+        hostname: 'uploader'
         pull: yes
         published_ports:
           - '{{extport}}:{{intport}}'
@@ -94,11 +93,11 @@
         state: started
         labels: '{{pg_labels}}'
         dns_servers:                           
-           - '8.8.8.8'
-           - '8.8.4.4'
+          - '8.8.8.8'
+          - '8.8.4.4'
         mounts:
-           - source: '/mnt/downloads'
-             target: '/move'
-             type: bind
-             consistency: consistent
-             propagation: rshared
+          - source: '/mnt/downloads'
+            target: '/move'
+            type: bind
+            consistency: consistent
+            propagation: rshared
