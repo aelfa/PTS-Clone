@@ -20,8 +20,20 @@
     mode: '0755'
   when: rcp.stat.exists == false
 
-- name: 'Setting permissions on appdata'
-  shell: 'chmod -cR 775 /opt/appdata/{{pgrole}}'
+- name: 'Creating appdata folder if it does not exist.'
+  shell: 'mkdir -p /opt/appdata/{{pgrole}}'
+
+- name: 'Creating rclone cache folder'
+  shell: 'mkdir -p /mnt/rclone_cache'
 
 - name: 'Setting ownership on appdata recursivley (this can take a while!)'
   shell: 'chown -cR 1000:1000 /opt/appdata/{{pgrole}}'
+
+- name: 'Setting permissions on appdata recursivley (this can take a while!)'
+  shell: 'chmod -cR 775 /opt/appdata/{{pgrole}}'
+
+- name: 'Setting ownership on rclone_cache recursivley (this can take a while!)'
+  shell: 'chown -cR 1000:1000 /mnt/rclone_cache'
+
+- name: 'Setting permissions on rclone_cache (this can take a while!)'
+  shell: 'chmod -cR 775 /mnt/rclone_cache/'
