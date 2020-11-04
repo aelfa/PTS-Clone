@@ -59,6 +59,7 @@
         volumes:
           - '/opt/appdata/{{pgrole}}/:/config'
           - '/var/run/docker.sock:/var/run/docker.sock'
+          - '/mnt/downloads:/mnt/downloads'
         env: '{{pg_env}}'
         capabilities:
           - 'SYS_ADMIN'
@@ -82,14 +83,9 @@
              target: '/mnt/unionfs'
              type: bind
              consistency: consistent
-             propagation: rshared
-          -  source: '/mnt/downloads'
-             target: '/mnt/downloads'
-             type: bind
-             consistency: consistent
-             propagation: rshared
+             propagation: shared
           -  source: '/mnt/rclone_cache'
              target: '/tmp/rclone_cache'
              type: bind
              consistency: consistent
-             propagation: rshared
+             propagation: shared
