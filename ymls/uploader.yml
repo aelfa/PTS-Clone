@@ -100,4 +100,4 @@
             target: '/move'
             type: bind
             consistency: consistent
-            propagation: rshared
+            propagation: shared
