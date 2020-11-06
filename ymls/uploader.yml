@@ -16,7 +16,6 @@
         intport: '8080'
         extport: '7777'
         image: 'mrdoob/rccup:latest'
-
     - name: 'Register  Download Drive'
       shell: 'cat /var/plexguide/server.hd.path'
       register: downloadpath
@@ -50,19 +49,16 @@
           traefik.frontend.headers.customResponseHeaders: 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
           traefik.frontend.headers.forceSTSHeader: 'true'
           traefik.frontend.redirect.entryPoint: 'https'
-
     - name: 'Setting {{pgrole}} Volumes'
       set_fact:
         pg_volumes:
           - '/opt/appdata/{{pgrole}}/:/config'
-          - '/mnt/downloads:/move'
-
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
           PUID: '1000'
           PGID: '1000'
-          BWLIMITSET: '80'
+          BWLIMITSET: 'null'
           CHUNK: '32'
           DISCORD_WEBHOOK_URL: 'null'
           DISCORD_ICON_OVERRIDE: 'https://i.imgur.com/MZYwA1I.png'
@@ -71,16 +67,15 @@
           SERVERSIDE: 'false'
           LOGHOLDUI: '5m'
           CLEANUPDOWN: '7'
-
      ########## DEPLOYMENT ##########
-
     - name: 'Deploying {{pgrole}}'
       docker_container:
         name: '{{pgrole}}'
         image: '{{image}}'
+        hostname: 'uploader'
         pull: yes
         published_ports:
-          - '{{ports.stdout}}{{extport}}:{{intport}}'
+          - '{{extport}}:{{intport}}'
         volumes: '{{pg_volumes}}'
         env: '{{pg_env}}'
         capabilities:
@@ -97,3 +92,12 @@
               - '{{pgrole}}'
         state: started
         labels: '{{pg_labels}}'
+        dns_servers:                           
+          - '8.8.8.8'
+          - '8.8.4.4'
+        mounts:
+          - source: '/mnt/downloads'
+            target: '/move'
+            type: bind
+            consistency: consistent
+            propagation: shared
