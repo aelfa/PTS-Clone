@@ -61,7 +61,7 @@
           - '/var/run/docker.sock:/var/run/docker.sock'
           - '/mnt/downloads:/mnt/downloads'
           - '/mnt/unionfs:/mnt/unionfs:shared'
-          - '/mnt/rclone_cache:/mnt/rclone_cache:shared'
+          - '/mnt/rclone_cache:/tmp/rclone_cache:shared'
         env: '{{pg_env}}'
         capabilities:
           - 'SYS_ADMIN'
