@@ -60,7 +60,7 @@
           - '/opt/appdata/{{pgrole}}/:/config'
           - '/var/run/docker.sock:/var/run/docker.sock'
           - '/mnt/downloads:/mnt/downloads'
-          - '/mnt/unionfs:/mnt/unionfs:shared
+          - '/mnt/unionfs:/mnt/unionfs:shared'
           - '/mnt/rclone_cache:/mnt/rclone_cache:shared'
         env: '{{pg_env}}'
         capabilities:
