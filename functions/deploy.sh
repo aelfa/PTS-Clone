@@ -50,7 +50,7 @@ if [[ "$UI" == "pgui" ]]; then
 fi
 }
 update_pip() {
-pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1 | xargs -n1 pip3 install -U
+sudo pip3 freeze --local |sed -rn 's/^([^=# \t\\][^ \t=]*)=.*/echo; echo Processing \1 ...; sudo pip3 install -U \1/p' |sh
 }
 vnstat() {
 apt-get install ethtool vnstat vnstati -yqq 2>&1 >>/dev/null
