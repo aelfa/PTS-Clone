@@ -15,7 +15,7 @@
         pgrole: 'uploader'
         intport: '8080'
         extport: '7777'
-        image: 'mrdoob/rccup:latest'
+        image: 'mrdoob/rccup:volumen'
     - name: 'Register  Download Drive'
       shell: 'cat /var/plexguide/server.hd.path'
       register: downloadpath
@@ -92,12 +92,11 @@
               - '{{pgrole}}'
         state: started
         labels: '{{pg_labels}}'
-        dns_servers:                           
+        dns_servers:
           - '8.8.8.8'
           - '8.8.4.4'
         mounts:
-          - source: '/mnt/downloads'
-            target: '/move'
-            type: bind
-            consistency: consistent
-            propagation: shared
+          - source: 'unionfs'
+            target: '/mnt'
+            type: volumen
+            volumen_driver: local-persist
