@@ -52,6 +52,10 @@ fi
 update_pip() {
 sudo pip3 freeze --local |sed -rn 's/^([^=# \t\\][^ \t=]*)=.*/echo; echo Processing \1 ...; sudo pip3 install -U \1/p' |sh
 }
+install_driver() {
+curl -fsSL https://raw.githubusercontent.com/MatchbookLab/local-persist/master/scripts/install.sh | sudo bash
+docker volume create -d local-persist -o mountpoint=/mnt --name=unionfs
+}
 vnstat() {
 apt-get install ethtool vnstat vnstati -yqq 2>&1 >>/dev/null
 export DEBIAN_FRONTEND=noninteractive
@@ -70,6 +74,7 @@ tee <<-EOF
      🚀      Deploy of Docker Mounts
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
+   deploypgblitz
    vnstat
    norcloneconf
    update_pip
@@ -77,6 +82,7 @@ EOF
    removeoldui
    cleanlogs
    stopmunts
+   install_driver
    ansible-playbook /opt/pgclone/ymls/remove-2.yml
    ansible-playbook /opt/pgclone/ymls/mounts.yml
   read -rp '↘️  Acknowledge Info | Press [ENTER] ' typed </dev/tty
@@ -118,6 +124,7 @@ tee <<-EOF
      🚀  Deploy of Docker Uploader
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
+   deploypgblitz
    vnstat
    norcloneconf
    update_pip
