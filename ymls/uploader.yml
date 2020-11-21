@@ -98,5 +98,5 @@
         mounts:
           - source: 'unionfs'
             target: '/mnt'
-            type: volumen
-            volumen_driver: local-persist
+            type: volume
+            volume_driver: local-persist
