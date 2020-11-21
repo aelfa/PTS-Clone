@@ -5,7 +5,7 @@
 # Dockerowner:     fluencelabs
 # GNU:             General Public License v3.0
 
-# Description:     Use socket_proxy network instead of directly exposing containers to docker-sock which can turn out to be dangerous 
+# Use socket_proxy network instead of directly exposing containers to docker-sock which can turn out to be dangerous
 
 # Creating socket_proxy docker network
 - name: 'creating socket_proxy docker network'
@@ -49,16 +49,16 @@
           DISTRIBUTION: "0"
           EXEC: "0"
           IMAGES: "1"
-          INFO: "1" 
+          INFO: "1"
           NETWORKS: "1"
           NODES: "0"
           PLUGINS: "0"
-          SERVICES: "1" 
+          SERVICES: "1"
           SESSION: "0"
           SWARM: "0"
           SYSTEM: "0"
           TASKS: "1"
-          VOLUMES: "1" 
+          VOLUMES: "1"
           CONTAINERS_CREATE: "1"
           CONTAINERS_START: "1"
           CONTAINERS_UPDATE: "1"
@@ -85,5 +85,3 @@
           - name: socket_proxy
             ipv4_address: "192.168.91.254" # You can specify a static IP
         state: started
-  
-     
