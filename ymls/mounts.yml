@@ -24,6 +24,8 @@
     - name: 'Register Download Drive'
       shell: 'cat /var/plexguide/server.hd.path'
       register: downloadpath
+    - name: 'Installing socket-proxy'
+      include_tasks: './socket-proxy.yml'
     # LABELS ######################################################################
     - name: 'Adding Traefik'
       set_fact:
@@ -47,6 +49,7 @@
         pg_env:
           PUID: '1000'
           PGID: '1000'
+          DOCKER_HOST: 'tcp://socket-proxy:2375'
      ########## DEPLOYMENT ##########
     - name: 'Deploying {{pgrole}}'
       docker_container:
@@ -58,7 +61,6 @@
           - '{{extport}}:{{intport}}'
         volumes:
           - '/opt/appdata/{{pgrole}}/:/config'
-          - '/var/run/docker.sock:/var/run/docker.sock'
           - '/mnt:/mnt:shared'
         env: '{{pg_env}}'
         capabilities:
@@ -73,6 +75,7 @@
           - name: plexguide
             aliases:
               - '{{pgrole}}'
+          - name: socket_proxy
         dns_servers:
           - '8.8.8.8'
           - '8.8.4.4'
