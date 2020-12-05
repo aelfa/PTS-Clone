@@ -76,7 +76,6 @@ tee <<-EOF
 EOF
    vnstat
    norcloneconf
-   update_pip
    removeoldui
    cleanlogs
    stopmunts
