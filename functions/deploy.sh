@@ -74,11 +74,9 @@ tee <<-EOF
      🚀      Deploy of Docker Mounts
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-   deploypgblitz
    vnstat
    norcloneconf
    update_pip
-   updatesystem
    removeoldui
    cleanlogs
    stopmunts
