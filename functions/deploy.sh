@@ -121,7 +121,7 @@ tee <<-EOF
      🚀  Deploy of Docker Uploader
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-   #deploypgblitz
+   deploypgblitz
    vnstat
    norcloneconf
    #update_pip
