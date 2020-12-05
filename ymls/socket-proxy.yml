@@ -14,11 +14,11 @@
 
 # Creating socket_proxy docker network
     - name: 'creating socket_proxy docker network'
-  shell: "docker network create --gateway 192.168.91.1 --subnet 192.168.91.0/24 socket_proxy"
+      shell: "docker network create --gateway 192.168.91.1 --subnet 192.168.91.0/24 socket_proxy"
   register: socket_proxy
 # Including Core Taks
     - name: 'Including main job'
-  include_tasks: '/opt/coreapps/apps/_core.yml'
+      include_tasks: '/opt/coreapps/apps/_core.yml'
 
     # FACTS #######################################################################
     - name: 'Set Known Facts'
