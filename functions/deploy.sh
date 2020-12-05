@@ -121,11 +121,11 @@ tee <<-EOF
      🚀  Deploy of Docker Uploader
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-   deploypgblitz
+   #deploypgblitz
    vnstat
    norcloneconf
-   update_pip
-   updatesystem
+   #update_pip
+   #updatesystem
    removeoldui
    cleanlogs
    ansible-playbook /opt/pgclone/ymls/uploader.yml
