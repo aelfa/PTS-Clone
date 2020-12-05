@@ -74,7 +74,7 @@ tee <<-EOF
      🚀      Deploy of Docker Mounts
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-   deploypgblitz
+   #deploypgblitz
    vnstat
    norcloneconf
    removeoldui
@@ -122,7 +122,7 @@ tee <<-EOF
      🚀  Deploy of Docker Uploader
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-   deploypgblitz
+   #deploypgblitz
    vnstat
    norcloneconf
    #update_pip
