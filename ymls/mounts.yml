@@ -55,7 +55,7 @@
       docker_container:
         name: '{{pgrole}}'
         hostname: '{{pgrole}}'
-        image: 'mrdoob/rccmount:volumen'
+        image: 'mrdoob/rccmount'
         pull: yes
         published_ports:
           - '{{extport}}:{{intport}}'
