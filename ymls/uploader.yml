@@ -53,11 +53,13 @@
       set_fact:
         pg_volumes:
           - '/opt/appdata/{{pgrole}}/:/config'
+
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
           PUID: '1000'
           PGID: '1000'
+
      ########## DEPLOYMENT ##########
     - name: 'Deploying {{pgrole}}'
       docker_container:
