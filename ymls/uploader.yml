@@ -15,7 +15,7 @@
         pgrole: 'uploader'
         intport: '8080'
         extport: '7777'
-        image: 'mrdoob/rccup:volumen'
+        image: 'mrdoob/uploader'
     - name: 'Register  Download Drive'
       shell: 'cat /var/plexguide/server.hd.path'
       register: downloadpath
