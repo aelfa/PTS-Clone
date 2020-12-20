@@ -38,6 +38,7 @@ stopmunts() {
 mount=$(docker ps --format '{{.Names}}' | grep "mount**")
 if [[ "$mount" == "mount**" ]]; then 
    docker stop mount** >> /dev/null
+   docker rm mount** >> /dev/null
    fusermount -uzq /mnt/unionfs >> /dev/null
 fi
 }
