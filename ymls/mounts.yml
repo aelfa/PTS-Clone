@@ -24,24 +24,6 @@
     - name: 'Register Download Drive'
       shell: 'cat /var/plexguide/server.hd.path'
       register: downloadpath
-    # LABELS ######################################################################
-    - name: 'Adding Traefik'
-      set_fact:
-        pg_labels:
-          traefik.enable: 'true'
-          traefik.port: '{{intport}}'
-          traefik.frontend.auth.forward.address: '{{gauth}}'
-          traefik.frontend.rule: 'Host:{{pgrole}}.{{domain.stdout}}'
-          traefik.frontend.headers.SSLHost: '{{domain.stdout}}'
-          traefik.frontend.headers.SSLRedirect: 'true'
-          traefik.frontend.headers.STSIncludeSubdomains: 'true'
-          traefik.frontend.headers.STSPreload: 'true'
-          traefik.frontend.headers.STSSeconds: '315360000'
-          traefik.frontend.headers.browserXSSFilter: 'true'
-          traefik.frontend.headers.contentTypeNosniff: 'true'
-          traefik.frontend.headers.customResponseHeaders: 'X-Robots-Tag:noindex,nofollow,nosnippet,noarchive,notranslate,noimageindex'
-          traefik.frontend.headers.forceSTSHeader: 'true'
-          traefik.frontend.redirect.entryPoint: 'https'
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
         pg_env:
@@ -77,5 +59,4 @@
           - '8.8.8.8'
           - '8.8.4.4'
         state: started
-        labels: '{{pg_labels}}'
 #<EOF>#
