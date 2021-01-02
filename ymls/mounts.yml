@@ -42,6 +42,7 @@
           - '/opt/appdata/{{pgrole}}/:/config:rw'
           - '/mnt:/mnt:shared'
           - '/var/run/docker.sock:/var/run/docker.sock:ro'
+          - 'cache:/tmp/rclone_cache
         env: '{{pg_env}}'
         capabilities:
           - 'SYS_ADMIN'
