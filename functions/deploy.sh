@@ -75,7 +75,6 @@ tee <<-EOF
      🚀      Deploy of Docker Mounts
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-   #deploypgblitz
    vnstat
    norcloneconf
    removeoldui
@@ -123,11 +122,10 @@ tee <<-EOF
      🚀  Deploy of Docker Uploader
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-   #deploypgblitz
    vnstat
    norcloneconf
-   #update_pip
-   #updatesystem
+   update_pip
+   updatesystem
    removeoldui
    cleanlogs
    ansible-playbook /opt/pgclone/ymls/uploader.yml
