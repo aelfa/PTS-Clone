@@ -60,4 +60,9 @@
           - '8.8.8.8'
           - '8.8.4.4'
         state: started
+        mounts:
+          - source: 'cache'
+            target: '/mnt/rclone_cache'
+            type: volume
+            volume_driver: local-persist
 #<EOF>#
