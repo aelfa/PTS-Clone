@@ -56,7 +56,6 @@ sudo pip3 freeze --local |sed -rn 's/^([^=# \t\\][^ \t=]*)=.*/echo; echo Process
 install_driver() {
 curl -fsSL https://raw.githubusercontent.com/MatchbookLab/local-persist/master/scripts/install.sh | sudo bash
 docker volume create -d local-persist -o mountpoint=/mnt --name=unionfs
-docker volume create -d local-persist -o mountpoint=/mnt/rclone_cache/ --name=cache
 }
 vnstat() {
 apt-get install ethtool vnstat vnstati -yqq 2>&1 >>/dev/null
@@ -76,8 +75,11 @@ tee <<-EOF
      🚀      Deploy of Docker Mounts
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
+   #deploypgblitz
    vnstat
    norcloneconf
+   #update_pip
+   #updatesystem
    removeoldui
    cleanlogs
    stopmunts
@@ -123,10 +125,11 @@ tee <<-EOF
      🚀  Deploy of Docker Uploader
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
+   #deploypgblitz
    vnstat
    norcloneconf
-   update_pip
-   updatesystem
+   #update_pip
+   #updatesystem
    removeoldui
    cleanlogs
    ansible-playbook /opt/pgclone/ymls/uploader.yml
@@ -161,7 +164,7 @@ EOF
     tdrivemod
     gdsamod
     multihdreadonly
-    updatesystem
+    #updatesystem
     stopmunts
     deploydockermount
     deploydockeruploader
@@ -173,7 +176,7 @@ EOF
     tcryptmod
     gdsacryptmod
     multihdreadonly
-    updatesystem
+    #updatesystem
     stopmunts
     deploydockermount
     deploydockeruploader
