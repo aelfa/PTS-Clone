@@ -56,6 +56,7 @@ sudo pip3 freeze --local |sed -rn 's/^([^=# \t\\][^ \t=]*)=.*/echo; echo Process
 install_driver() {
 curl -fsSL https://raw.githubusercontent.com/MatchbookLab/local-persist/master/scripts/install.sh | sudo bash
 docker volume create -d local-persist -o mountpoint=/mnt --name=unionfs
+docker volume create -d local-persist -o mountpoint=/mnt/rclone_cache/ --name=cache
 }
 vnstat() {
 apt-get install ethtool vnstat vnstati -yqq 2>&1 >>/dev/null
