@@ -62,7 +62,7 @@
         state: started
         mounts:
           - source: 'cache'
-            target: '/mnt/rclone_cache'
+            target: '/tmp/rclone_cache'
             type: volume
             volume_driver: local-persist
 #<EOF>#
