@@ -79,8 +79,8 @@ EOF
    #deploypgblitz
    vnstat
    norcloneconf
-   #update_pip
-   #updatesystem
+   update_pip
+   updatesystem
    removeoldui
    cleanlogs
    stopmunts
@@ -129,8 +129,8 @@ EOF
    #deploypgblitz
    vnstat
    norcloneconf
-   #update_pip
-   #updatesystem
+   update_pip
+   updatesystem
    removeoldui
    cleanlogs
    ansible-playbook /opt/pgclone/ymls/uploader.yml
