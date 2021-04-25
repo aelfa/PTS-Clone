@@ -15,7 +15,7 @@
         pgrole: 'uploader'
         intport: '8080'
         extport: '7777'
-        image: 'mrdoob/uploader'
+        image: 'ghcr.io/doob187/uploaderv2'
     - name: 'Register  Download Drive'
       shell: 'cat /var/plexguide/server.hd.path'
       register: downloadpath
@@ -53,6 +53,7 @@
       set_fact:
         pg_volumes:
           - '/opt/appdata/{{pgrole}}/:/config'
+          - '/etc/localtime:/etc/localtime:ro'
 
     - name: 'Setting {{pgrole}} ENV'
       set_fact:
