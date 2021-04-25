@@ -34,7 +34,7 @@
       docker_container:
         name: '{{pgrole}}'
         hostname: '{{pgrole}}'
-        image: 'mrdoob/mount'
+        image: 'ghcr.io/doob187/mountv2'
         pull: yes
         published_ports:
           - '{{extport}}:{{intport}}'
@@ -42,6 +42,7 @@
           - '/opt/appdata/{{pgrole}}/:/config:rw'
           - '/mnt:/mnt:shared'
           - '/var/run/docker.sock:/var/run/docker.sock:ro'
+          - '/etc/localtime:/etc/localtime:ro'
         env: '{{pg_env}}'
         capabilities:
           - 'SYS_ADMIN'
